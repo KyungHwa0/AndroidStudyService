@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.os.IBinder
 
@@ -33,6 +34,18 @@ class MyService : Service() {
             }
         }
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        player = MediaPlayer()
+        registerReceiver(receiver, IntentFilter("PLAY_TO_SERVICE"))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
     }
